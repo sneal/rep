@@ -153,7 +153,7 @@ var _ = Describe("Bulker", func() {
 		})
 
 		Context("when the evacuation interval elapses", func() {
-			FIt("batches operations again", func() {
+			It("batches operations again", func() {
 				Eventually(fakeGenerator.BatchOperationsCallCount).Should(Equal(1))
 				fakeClock.Increment(evacuationPollInterval + time.Second)
 				Eventually(fakeGenerator.BatchOperationsCallCount).Should(Equal(2))
