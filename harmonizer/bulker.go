@@ -77,9 +77,8 @@ func (b *Bulker) Run(signals <-chan os.Signal, ready chan<- struct{}) error {
 			return nil
 		}
 
-		b.sync(logger)
-
 		timer.Reset(interval)
+		b.sync(logger)
 	}
 }
 
