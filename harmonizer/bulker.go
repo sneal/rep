@@ -67,6 +67,7 @@ func (b *Bulker) Run(signals <-chan os.Signal, ready chan<- struct{}) error {
 		case <-timer.C():
 
 		case <-evacuateNotify:
+			timer.Stop()
 			evacuateNotify = nil
 
 			logger.Info("notified-of-evacuation")
@@ -77,8 +78,8 @@ func (b *Bulker) Run(signals <-chan os.Signal, ready chan<- struct{}) error {
 			return nil
 		}
 
-		timer.Reset(interval)
 		b.sync(logger)
+		timer.Reset(interval)
 	}
 }
 
