@@ -30,7 +30,6 @@ import (
 	"github.com/nu7hatch/gouuid"
 	"github.com/pivotal-golang/clock"
 	"github.com/pivotal-golang/lager"
-	"github.com/pivotal-golang/localip"
 	"github.com/pivotal-golang/operationq"
 	"github.com/tedsuo/ifrit"
 	"github.com/tedsuo/ifrit/grouper"
@@ -354,13 +353,8 @@ func initializeServer(
 		logger.Fatal("failed-to-construct-router", err)
 	}
 
-	ip, err := localip.LocalIP()
-	if err != nil {
-		logger.Fatal("failed-to-fetch-ip", err)
-	}
-
-	port := strings.Split(*listenAddr, ":")[1]
-	address := fmt.Sprintf("http://%s:%s", ip, port)
+	addressParts := strings.Split(*listenAddr, ":")
+	address := fmt.Sprintf("http://%s:%s", addressParts[0], addressParts[1])
 
 	return http_server.New(*listenAddr, router), address
 }
